@@ -2,6 +2,8 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 
+const Cliente = require('./models/Cliente.model')
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,3 +27,25 @@ app.listen(PORT, () => {
     console.log(`listening on http://localhost:${PORT}`);
 
 });
+
+async function createTestClient() {
+    const client = new Cliente({
+        name: "Doris Gomez",
+        phone: "4586002643",
+        pin: "1234",
+        balance: 100
+
+    });
+
+    try {
+        await client.save();
+        console.log("Client save to MongoDb");
+    } catch (error) {
+        console.error("Error saving client: ", error)
+    }
+}
+
+mongoose.connection.once('open', () => {
+    console.log("Connected to MongoDB atlas");
+    createTestClient();
+}); 
