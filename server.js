@@ -2,6 +2,8 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 
+const clientRoutes = require('./routes/client.routes');
+
 const Cliente = require('./models/Cliente.model')
 
 
@@ -23,6 +25,9 @@ app.get('/', (req, res) => {
     res.send('Welcome to the API of Gift Card');
 
 });
+
+app.use('/clients', clientRoutes);
+
 app.listen(PORT, () => {
     console.log(`listening on http://localhost:${PORT}`);
 
